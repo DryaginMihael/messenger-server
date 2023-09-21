@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { Message } = require('./models');
-const wss = require('./webSocket');
 
 // Маршрут для получения всех сообщений
 router.get('/messages', async (req, res) => {
-    console.log('get');
   try {
-    const messages = await Message.findAll();
-    res.json(messages);
+    // const messages = await Message.findAll();
+    // res.json(messages);
+    res.json([]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Ошибка сервера' });
