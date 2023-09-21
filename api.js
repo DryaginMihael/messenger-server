@@ -5,9 +5,9 @@ const { Message } = require('./models');
 // Маршрут для получения всех сообщений
 router.get('/messages', async (req, res) => {
   try {
-    // const messages = await Message.findAll();
-    // res.json(messages);
-    res.json([]);
+    const messages = await Message.findAll();
+    res.json(messages);
+    // res.json([]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Ошибка сервера' });

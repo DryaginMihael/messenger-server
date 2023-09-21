@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const wss = require('./webSocket');
+// const wss = require('./webSocket');
 const app = express();
 const port = process.env.PORT || 8080;
 
