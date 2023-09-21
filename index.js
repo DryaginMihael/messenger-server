@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 // const wss = require('./webSocket');
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 80;
 
 // Подключение middleware для парсинга JSON
 app.use(express.json());
