@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 const { Message } = require('./models');
 
-const wss = new WebSocket.Server({ port: 8081 });
+const wss = new WebSocket.Server({ port: 80 });
 
 wss.on('connection', (ws) => {
   console.log('Клиент подключился');
