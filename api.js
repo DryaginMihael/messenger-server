@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const events = require('events');
@@ -22,6 +23,7 @@ router.get('/connect', async (req, res) => {
     'Connection': 'keep-alive',
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
+    'Access-Control-Allow-Origin': process.env.REACT_APP_URL,
   })
   emitter.on('newMessage', (message) => {
       res.write(`data: ${JSON.stringify(message)} \n\n`)
