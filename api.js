@@ -1,10 +1,74 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const events = require('events');
 const { Message } = require('./models');
+const { User } = require('./models')
 
 const emitter = new events.EventEmitter();
+
+const SECRET_KEY = 'your-secret-key';
+
+const generateToken = ({ username }) => {
+  const payload = {
+    username
+  }
+  return jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
+};
+
+// Роут для аутентификации и выдачи JWT
+router.post('/reg', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    let user = await User.findOne({
+      where: { username }
+    });
+    if (user) {
+      return res.status(401).json({ message: 'Такой пользователь уже есть' });
+    }
+    // const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, 7);
+    user = await User.create({ username, password: hashedPassword });
+    const token = generateToken(user);
+    res.json({ token, message: 'Пользователь успешно зарегестрирован' });
+  } catch (e) {
+    res.status(401).json({ message: 'Регистрация не удалась' });
+  }
+});
+
+// Роут для аутентификации и выдачи JWT
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  const user = await User.findOne({
+    where: { username }
+  });
+  if (user) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
+      const token = generateToken(user);
+      res.json({ token });
+    } else {
+      res.status(401).json({ message: 'Неверный пароль' });
+    }
+  } else {
+    res.status(401).json({ message: 'Проверьте правильность введенных данных' });
+  }
+});
+
+// Маршрут для получения всех пользователей
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+});
 
 // Маршрут для получения всех сообщений
 router.get('/messages', async (req, res) => {
