@@ -41,11 +41,15 @@ module.exports = {
       },
     });
 
-    // await queryInterface.addColumn('Users', 'user_id', {
-    //     type: Sequelize.INTEGER,
-    //     primaryKey: true,
-    //     autoIncrement: true,
-    // });
+    await queryInterface.removeColumn('Users', 'id');
+    await queryInterface.removeColumn('Users', 'user_id')
+
+    await queryInterface.addColumn('Users', 'user_id', {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        unique: true,
+    });
 
     // await queryInterface.addColumn('Users', 'email', {
     //     type: Sequelize.STRING,
