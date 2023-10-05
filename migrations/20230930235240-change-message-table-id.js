@@ -41,6 +41,18 @@ module.exports = {
       },
     });
 
+    await queryInterface.addColumn('Users', 'user_id', {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    });
+
+    await queryInterface.addColumn('Users', 'email', {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: true,
+    });
+
     await queryInterface.dropTable('Messages');
     await queryInterface.createTable('Messages', {
       message_id: {
