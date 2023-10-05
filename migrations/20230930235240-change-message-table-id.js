@@ -3,6 +3,44 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    await queryInterface.createTable('Chats', {
+      chat_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      chat_name: {
+        type: Sequelize.STRING,
+      },
+    });
+
+    await queryInterface.createTable('Users', {
+      user_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: true,
+      },
+      role: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'USER'
+      },
+    });
+
     await queryInterface.dropTable('Messages');
     await queryInterface.createTable('Messages', {
       message_id: {
@@ -39,49 +77,12 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable('Users', {
-      user_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: true,
-      },
-      role: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: 'USER'
-      },
-    });
-
     await queryInterface.createTable('Attachments', {
       file_path: {
         type: Sequelize.STRING, // Путь к файлу или URL
       },
     });
 
-    await queryInterface.createTable('Chats', {
-      chat_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      chat_name: {
-        type: Sequelize.STRING,
-      },
-    });
 
     await queryInterface.createTable('ChatMembers', {
       role: {
