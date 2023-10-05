@@ -73,7 +73,9 @@ router.get('/users', async (req, res) => {
 // Маршрут для получения всех сообщений
 router.get('/messages', async (req, res) => {
   try {
-    const messages = await Message.findAll();
+    const messages = await Message.findAll(
+      // { attributes: ['message_id', 'text', 'createdAt', 'updatedAt'] }
+    );
     res.json(messages);
   } catch (error) {
     console.error(error);

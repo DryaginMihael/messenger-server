@@ -1,24 +1,21 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Message extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  Message.init({
-    text: DataTypes.STRING,
-    sender: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Message',
+  const Message = sequelize.define('Message', {
+    message_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    text: {
+      type: DataTypes.TEXT,
+    },
+    // Другие поля модели
   });
+
+  Message.associate = (models) => {
+    Message.belongsTo(models.Chat, { foreignKey: 'chat_id' });
+    Message.belongsTo(models.User, { foreignKey: 'user_id' });
+  };
+
   return Message;
 };
