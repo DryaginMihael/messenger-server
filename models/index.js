@@ -16,7 +16,9 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-// sequelize.sync() Синхронизация моделей с бд
+// sequelize.sync({
+//   force: true
+// })
 
 fs
   .readdirSync(__dirname)

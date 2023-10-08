@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     const Chat = sequelize.define('Chat', {
-        chat_id: {
+        id: {
           type: DataTypes.INTEGER,
           primaryKey: true,
           autoIncrement: true,
         },
-        chat_name: {
+        name: {
           type: DataTypes.STRING,
         },
         // Другие поля модели
