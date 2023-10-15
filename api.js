@@ -83,6 +83,17 @@ router.get('/messages', async (req, res) => {
   }
 });
 
+// Маршрут для получения всех сообщений
+router.get('/chats', async (req, res) => {
+  try {
+    const chats = await Chats.findAll();
+    res.json(chats);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+});
+
 // Маршрут для подключения к eventsource
 router.get('/connect', async (req, res) => {
   res.writeHead(200, {
@@ -98,10 +109,10 @@ router.get('/connect', async (req, res) => {
 
 // Маршрут для отправки сообщения
 router.post('/messages', async (req, res) => {
-  const { text, sender } = req.body;
+  const { text, sender, chatId } = req.body;
 
   try {
-    const message = await Message.create({ text, sender });
+    const message = await Message.create({ text, user_id: sender, chat_id: chatId });
     emitter.emit('newMessage', message);
     res.status(201).json(message);
   } catch (error) {
