@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   Message.associate = (models) => {
     Message.belongsTo(models.Chat, { foreignKey: 'chat_id' });
     Message.belongsTo(models.User, { foreignKey: 'user_id' });
+    Message.belongsTo(models.User, { foreignKey: 'recipient_id' });
   };
 
   return Message;
